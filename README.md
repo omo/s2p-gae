@@ -1,5 +1,9 @@
 
 
+## Prereq
+
+ * [Pyenv](https://github.com/pyenv/pyenv)
+ * [GCloud SDK](https://cloud.google.com/sdk/docs/)
 
 ## Setup
 
@@ -22,6 +26,16 @@ $ pytest
 ```
 $ python main.py
 ```
+
+## Deploy
+
+```
+$ gcloud app deploy
+```
+
+## Browse
+
+ * https://s2p-gae.appspot.com
 
 ## Relevant Links
 

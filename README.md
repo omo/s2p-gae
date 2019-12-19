@@ -8,16 +8,17 @@
 ## Setup
 
 ```
+$ conda deacitvate # As needed
 $ pyenv rehash
-$ pyenv virtualenv venv
-$ pyenv activate venv
+# $ pyenv virtualenv venv-s2p-gae
+$ pyenv activate venv-s2p-gae
 $ pip install -r requirements.txt
 ```
 
 ## Test
 
 ```
-$ pip pytest
+$ pip install pytest
 $ pytest
 ```
 

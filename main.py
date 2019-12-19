@@ -10,9 +10,14 @@ app = Flask(__name__)
 def _redirect_to_fallback():
   return flask.redirect('https://anemone.dodgson.org/')
 
+def _redirect_to_feed():
+  return flask.redirect('https://anemone.dodgson.org/index.xml')
 
 @app.route('/<path:path>')
 def  all(path):
+  if path in ['atom.xml', 'index.rdf', 'no_comments.rdf']:
+    return _redirect_to_feed()
+
   # All the relevant URL is (shold be able to) categorized solely based on the path part.
   # You don't have to look at the host name.
 
@@ -20,7 +25,7 @@ def  all(path):
   #                          http://www.dodgson.org/omo/t/?date=20080316
   date_param = flask.request.args.get('date', None)
   if date_param:
-      match = re.match('(\d\d\d\d)(\d\d)(\d\d)', date_param)
+      match = re.match(r'(\d\d\d\d)(\d\d)(\d\d)', date_param)
       if not match:
         return _redirect_to_fallback()
       yyyy, mm, dd = match.group(1, 2, 3)

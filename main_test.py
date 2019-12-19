@@ -29,3 +29,6 @@ def test_octopress():
 
 def test_octopress_pages():
   _assert_redirect('/blog/archives/', 'https://blog.dodgson.org/blog/archives/') 
+
+def test_feed():
+  _assert_redirect('/atom.xml', 'https://anemone.dodgson.org/index.xml')

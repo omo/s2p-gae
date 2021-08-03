@@ -7,11 +7,22 @@ from flask import Flask
 app = Flask(__name__)
 
 
+def set_long_ttl(resp):
+  resp.headers['Cache-Control'] = 'max-age={}'.format(60 * 60 * 24)
+  return resp
+
+
 def _redirect_to_fallback():
-  return flask.redirect('https://anemone.dodgson.org/')
+  return set_long_ttl(flask.redirect('https://anemone.dodgson.org/', 301))
+
 
 def _redirect_to_feed():
-  return flask.redirect('https://anemone.dodgson.org/index.xml')
+  return set_long_ttl(flask.redirect('https://anemone.dodgson.org/index.xml', 301))
+
+
+def _redirect_to_url(url):
+  return set_long_ttl(flask.redirect(url, 301))
+
 
 @app.route('/<path:path>')
 def  all(path):
@@ -29,17 +40,17 @@ def  all(path):
       if not match:
         return _redirect_to_fallback()
       yyyy, mm, dd = match.group(1, 2, 3)
-      return flask.redirect('https://bn.dodgson.org/bn/{}/{}/{}/'.format(yyyy, mm, dd))
+      return _redirect_to_url('https://bn.dodgson.org/bn/{}/{}/{}/'.format(yyyy, mm, dd))
 
   # Handle /bn/... e.g: http://steps.dodgson.org/bn/2007/11/03/
   if flask.request.path.startswith('/bn/'):
-    return flask.redirect('https://bn.dodgson.org' + flask.request.path)
+    return _redirect_to_url('https://bn.dodgson.org' + flask.request.path)
 
   # Handle /b/... e.g: http://steps.dodgson.org/b/2014/12/11/why-is-real-dom-slow/
   if flask.request.path.startswith('/b/') or \
      flask.request.path == '/blog/archives/' or \
      flask.request.path == '/selection/':
-    return flask.redirect('https://blog.dodgson.org' + flask.request.path)
+    return _redirect_to_url('https://blog.dodgson.org' + flask.request.path)
 
   # No clue what this is.
   return _redirect_to_fallback()

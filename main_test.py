@@ -5,7 +5,7 @@ def _assert_redirect(get, url):
   main.app.testing = True
   client = main.app.test_client()
   resp = client.get(get)
-  assert resp.status_code == 302
+  assert resp.status_code == 301
   assert resp.headers['Location'] == url
 
 

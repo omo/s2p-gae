@@ -7,6 +7,7 @@ def _assert_redirect(get, url):
   resp = client.get(get)
   assert resp.status_code == 301
   assert resp.headers['Location'] == url
+  assert resp.headers['Cache-Control'] == 'max-age=86400'
 
 
 def test_index():
